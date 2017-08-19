@@ -6,14 +6,14 @@ local function lcobject(value)
   elseif type(value)=="number" then ret.type = "NUMBAR"
   elseif type(value)=="boolean" then ret.type = "TROOF"
   elseif type(value)=="table" then ret.type = "BUKKIT"
-  elseif type(value)=="function" then ret.type = "funkshion"
+  elseif type(value)=="function" then ret.type = "FUNKSHION"
   else ret.type = "NOOB" end
   ret.value = value
   ret.toLCValue = function()
     if ret.type=="YARN" then return ret.value end
     if ret.type=="NUMBAR" then return ret.value+0.0 end
     if ret.type=="TROOF" then return ret.value and "WIN" or "FAIL" end
-    return nil
+    return ret.value
   end
   ret.fromLCValue = function(lcval)
     if type(lcval)=="string" then if lcval=="WIN" or lcval=="FAIL" then ret.type = "TROOF" else ret.type = "YARN" end
@@ -35,6 +35,12 @@ local function wrap(code,env)
   return ret
 end
 
-function execute(code,env)
+local function execute(code,env)
   return wrap(code,env)()
 end
+
+local api = {}
+api.execute = execute
+api.wrapcode = wrap
+api.lcobject = lcobject
+return api
