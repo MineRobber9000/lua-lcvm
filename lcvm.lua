@@ -19,7 +19,7 @@ local function lcobject(value)
     if type(lcval)=="string" then if lcval=="WIN" or lcval=="FAIL" then ret.type = "TROOF" else ret.type = "YARN" end
     elseif type(lcval)=="number" then ret.type = "NUMBAR"
     elseif type(lcval)=="function" then ret.type = "FUNKSHION"
-    else ret.type=="NOOB" end
+    else ret.type="NOOB" end
     if lcval=="WIN" or lcval=="FAIL" then ret.value = (lcval=="WIN") else
     ret.value = value end
   end
@@ -63,8 +63,16 @@ end
 
 local function visible(tokens,i)
   table.remove(tokens,1)
-  local obj = lcobject(table.concat(tokens," "):sub(2,-2))
-  print(obj.value)
+  local endtoken = #tokens
+  for i=#tokens,1,-1 do
+    if tokens[i]=="BTW" then endtoken = i end
+  end
+  ntokens = {}
+  for li=1,(endtoken-1) do
+    table.insert(ntokens,tokens[li])
+  end
+  local obj = table.concat(ntokens," "):sub(2,-2)
+  print(obj)
   return i
 end
 addStatement("VISIBLE",visible)
@@ -74,7 +82,7 @@ local function wrap(code,env,level)
   env = env and env or default_env
   level = level and level or 1
   function ret()
-    local lines = split(code)
+    local lines = splitlines(code)
     if level==1 and lines[1]:sub(1,3)~="HAI" then
       return lcobject(false)
     end
