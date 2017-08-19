@@ -17,7 +17,7 @@ local function lcobject(value)
   end
   ret.fromLCValue = function(lcval)
     if type(lcval)=="string" then if lcval=="WIN" or lcval=="FAIL" then ret.type = "TROOF" else ret.type = "YARN" end
-    elseif type(lcval)=="number" then ret.type = "NUMBAR" end
+    elseif type(lcval)=="number" then ret.type = "NUMBAR"
     elseif type(lcval)=="function" then ret.type = "FUNKSHION"
     else ret.type=="NOOB" end
     if lcval=="WIN" or lcval=="FAIL" then ret.value = (lcval=="WIN") else
@@ -35,6 +35,6 @@ local function wrap(code,env)
   return ret
 end
 
-local function execute(code,env)
+function execute(code,env)
   return wrap(code,env)()
 end
